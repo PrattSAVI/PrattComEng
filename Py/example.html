@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>None</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"id": "Industrial Design + Interior Design", "label": "Industrial Design + Interior Design", "shape": "dot"}, {"id": "Pratt Research Accelerator + \nMAD Workshop + \nGlobal South Center", "label": "Pratt Research Accelerator + \nMAD Workshop + \nGlobal South Center", "shape": "dot"}, {"id": "Interior Design", "label": "Interior Design", "shape": "dot"}, {"id": "GAUD", "label": "GAUD", "shape": "dot"}, {"id": "GCPE \u2013 SES", "label": "GCPE \u2013 SES", "shape": "dot"}, {"id": "SES \u2013 Historic Preservation", "label": "SES \u2013 Historic Preservation", "shape": "dot"}, {"id": "GCPE \u2013 Historic Preservation", "label": "GCPE \u2013 Historic Preservation", "shape": "dot"}, {"id": "GCPE \u2013 Planning", "label": "GCPE \u2013 Planning", "shape": "dot"}, {"id": "GCPE \u2013 Urban Placemaking and Management", "label": "GCPE \u2013 Urban Placemaking and Management", "shape": "dot"}, {"id": "Pratt Center", "label": "Pratt Center", "shape": "dot"}, {"id": "Center for Art, Design, and Community Engagement K-12", "label": "Center for Art, Design, and Community Engagement K-12", "shape": "dot"}, {"id": "SAVI", "label": "SAVI", "shape": "dot"}, {"id": "Fine Arts", "label": "Fine Arts", "shape": "dot"}, {"id": "CRR", "label": "CRR", "shape": "dot"}, {"id": "National Alliance for Mental Illness", "label": "National Alliance for Mental Illness", "shape": "dot"}, {"id": "Caringkind", "label": "Caringkind", "shape": "dot"}, {"id": "New Sanctuary Coalition", "label": "New Sanctuary Coalition", "shape": "dot"}, {"id": "Kingston High School Internship Program", "label": "Kingston High School Internship Program", "shape": "dot"}, {"id": "Asian Americans for Equality + BlackSpace", "label": "Asian Americans for Equality + BlackSpace", "shape": "dot"}, {"id": "Brooklyn Public Library [BPL] ", "label": "Brooklyn Public Library [BPL] ", "shape": "dot"}, {"id": "Ifetayo Cultural Arts Academy", "label": "Ifetayo Cultural Arts Academy", "shape": "dot"}, {"id": "RETI Center/Blue City Lab", "label": "RETI Center/Blue City Lab", "shape": "dot"}, {"id": "Noguchi Museum", "label": "Noguchi Museum", "shape": "dot"}, {"id": "Stanton Task Force of the Sara D. Roosevelt Park Community Coalition", "label": "Stanton Task Force of the Sara D. Roosevelt Park Community Coalition", "shape": "dot"}, {"id": "Forsyth Satellite Academy", "label": "Forsyth Satellite Academy", "shape": "dot"}, {"id": "Weeksville Heritage Center", "label": "Weeksville Heritage Center", "shape": "dot"}, {"id": "The Gaia Institute", "label": "The Gaia Institute", "shape": "dot"}, {"id": "St. Nick\u2019s Alliance", "label": "St. Nick\u2019s Alliance", "shape": "dot"}, {"id": "South Bronx Unite", "label": "South Bronx Unite", "shape": "dot"}, {"id": "UPROSE", "label": "UPROSE", "shape": "dot"}, {"id": "Blue Schools", "label": "Blue Schools", "shape": "dot"}, {"id": "South Bronx Industrial Development Corporation (SBIDC)", "label": "South Bronx Industrial Development Corporation (SBIDC)", "shape": "dot"}, {"id": "Myrtle Avenue Brooklyn Partnership", "label": "Myrtle Avenue Brooklyn Partnership", "shape": "dot"}, {"id": "Red Hook Initiative", "label": "Red Hook Initiative", "shape": "dot"}, {"id": "Gowanus Canal Conservancy", "label": "Gowanus Canal Conservancy", "shape": "dot"}, {"id": "Resilient Red Hook", "label": "Resilient Red Hook", "shape": "dot"}, {"id": "Rockaway Waterfront Alliance", "label": "Rockaway Waterfront Alliance", "shape": "dot"}, {"id": "Evergreen Exchange", "label": "Evergreen Exchange", "shape": "dot"}, {"id": "Governor\u2019s Office for Storm Recovery NY Rising", "label": "Governor\u2019s Office for Storm Recovery NY Rising", "shape": "dot"}, {"id": "Brooklyn Movement Center (BMC)  +  Bedford Stuyvesant Restoration Corporation (BSRC)", "label": "Brooklyn Movement Center (BMC)  +  Bedford Stuyvesant Restoration Corporation (BSRC)", "shape": "dot"}, {"id": "Chhaya CDC", "label": "Chhaya CDC", "shape": "dot"}, {"id": "Northwest Bronx Community and Clergy Coalition (NWBCCC)", "label": "Northwest Bronx Community and Clergy Coalition (NWBCCC)", "shape": "dot"}, {"id": "Grand Street Business Improvement District", "label": "Grand Street Business Improvement District", "shape": "dot"}, {"id": "El Puente de Williamsburg", "label": "El Puente de Williamsburg", "shape": "dot"}, {"id": "Brotherhood Sister Sol", "label": "Brotherhood Sister Sol", "shape": "dot"}, {"id": "Flatbush Junction Business Improvement District", "label": "Flatbush Junction Business Improvement District", "shape": "dot"}, {"id": "Fort Greene Park Conservancy", "label": "Fort Greene Park Conservancy", "shape": "dot"}, {"id": "Gowanus Neighborhood Coalition for Justice", "label": "Gowanus Neighborhood Coalition for Justice", "shape": "dot"}, {"id": "Cypress Hills Local Development Corporation", "label": "Cypress Hills Local Development Corporation", "shape": "dot"}, {"id": "Chinatown Working Group", "label": "Chinatown Working Group", "shape": "dot"}, {"id": "The Alliance for Flushing Meadows Corona Park", "label": "The Alliance for Flushing Meadows Corona Park", "shape": "dot"}, {"id": "Jackson Heights Beautification Group", "label": "Jackson Heights Beautification Group", "shape": "dot"}, {"id": "Brooklyn Community Board 7", "label": "Brooklyn Community Board 7", "shape": "dot"}, {"id": "Turnaround Arts", "label": "Turnaround Arts", "shape": "dot"}, {"id": "Village of Ossining", "label": "Village of Ossining", "shape": "dot"}, {"id": "Jakmel Ekspresyon (JE) Community Center", "label": "Jakmel Ekspresyon (JE) Community Center", "shape": "dot"}, {"id": "Urban Manufacturing Alliance", "label": "Urban Manufacturing Alliance", "shape": "dot"}, {"id": "Prospect Lefferts Gardens", "label": "Prospect Lefferts Gardens", "shape": "dot"}, {"id": "Neighbors Allied for Good Growth", "label": "Neighbors Allied for Good Growth", "shape": "dot"}, {"id": "The Laboratory of Integrated Archaeological Visualization and Heritage", "label": "The Laboratory of Integrated Archaeological Visualization and Heritage", "shape": "dot"}, {"id": "Hester Street Collaborative", "label": "Hester Street Collaborative", "shape": "dot"}, {"id": "Friends of Bushwick Inlet", "label": "Friends of Bushwick Inlet", "shape": "dot"}, {"id": "Hudson River Foundation", "label": "Hudson River Foundation", "shape": "dot"}, {"id": "Bushwick Generator", "label": "Bushwick Generator", "shape": "dot"}, {"id": "SUN (Sustainable United Neighborhoods))", "label": "SUN (Sustainable United Neighborhoods))", "shape": "dot"}, {"id": "Better Brooklyn", "label": "Better Brooklyn", "shape": "dot"}, {"id": "Carlos Menchaca who represents ", "label": "Carlos Menchaca who represents ", "shape": "dot"}, {"id": "New York City Council District 38,", "label": "New York City Council District 38,", "shape": "dot"}, {"id": "Sunset Park District", "label": "Sunset Park District", "shape": "dot"}, {"id": "SDR Park Coalition", "label": "SDR Park Coalition", "shape": "dot"}, {"id": "Green Map System", "label": "Green Map System", "shape": "dot"}, {"id": "University Settlement", "label": "University Settlement", "shape": "dot"}, {"id": "Downtown Art", "label": "Downtown Art", "shape": "dot"}, {"id": "The Point CDC", "label": "The Point CDC", "shape": "dot"}, {"id": "The New York City Environmental Justice Alliance ", "label": "The New York City Environmental Justice Alliance ", "shape": "dot"}, {"id": "South Bronx Community Resilience Agenda (SBCRA)", "label": "South Bronx Community Resilience Agenda (SBCRA)", "shape": "dot"}, {"id": "Mothers on the Move (MOM)", "label": "Mothers on the Move (MOM)", "shape": "dot"}, {"id": "Mary Mitchell Family and Youth Center", "label": "Mary Mitchell Family and Youth Center", "shape": "dot"}, {"id": "Fort Greene Community and District 35", "label": "Fort Greene Community and District 35", "shape": "dot"}, {"id": "Recess Assembly (part of Recess)", "label": "Recess Assembly (part of Recess)", "shape": "dot"}, {"id": "WE STAY / NOS QUEDAMOS", "label": "WE STAY / NOS QUEDAMOS", "shape": "dot"}, {"id": "Children of Promise ", "label": "Children of Promise ", "shape": "dot"}, {"id": "The Brooklyn Urban Garden School", "label": "The Brooklyn Urban Garden School", "shape": "dot"}, {"id": "The Brookyln School of Inquiry", "label": "The Brookyln School of Inquiry", "shape": "dot"}, {"id": "St. Hilda\u2019s \u0026 St. Hughs School", "label": "St. Hilda\u2019s \u0026 St. Hughs School", "shape": "dot"}, {"id": "New Lab", "label": "New Lab", "shape": "dot"}, {"id": "CUJAE ", "label": "CUJAE ", "shape": "dot"}, {"id": "Plan Maestro, the Office of the City Historian", "label": "Plan Maestro, the Office of the City Historian", "shape": "dot"}]);
+        edges = new vis.DataSet([{"from": "Industrial Design + Interior Design", "to": "National Alliance for Mental Illness", "weight": 0.87}, {"from": "Industrial Design + Interior Design", "to": "Caringkind", "weight": 0.87}, {"from": "Industrial Design + Interior Design", "to": "New Sanctuary Coalition", "weight": 0.87}, {"from": "Pratt Research Accelerator + \nMAD Workshop + \nGlobal South Center", "to": "Kingston High School Internship Program", "weight": 0.87}, {"from": "Interior Design", "to": "Asian Americans for Equality + BlackSpace", "weight": 0.87}, {"from": "Interior Design", "to": "Brooklyn Public Library [BPL] ", "weight": 0.87}, {"from": "Interior Design", "to": "Ifetayo Cultural Arts Academy", "weight": 0.87}, {"from": "Interior Design", "to": "RETI Center/Blue City Lab", "weight": 0.87}, {"from": "Interior Design", "to": "Noguchi Museum", "weight": 0.87}, {"from": "Interior Design", "to": "Stanton Task Force of the Sara D. Roosevelt Park Community Coalition", "weight": 0.87}, {"from": "Interior Design", "to": "Forsyth Satellite Academy", "weight": 0.87}, {"from": "GAUD", "to": "Weeksville Heritage Center", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "The Gaia Institute", "weight": 0.87}, {"from": "SES \u2013 Historic Preservation", "to": "St. Nick\u2019s Alliance", "weight": 0.87}, {"from": "GCPE \u2013 Historic Preservation", "to": "South Bronx Unite", "weight": 0.87}, {"from": "GCPE \u2013 Planning", "to": "UPROSE", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Blue Schools", "weight": 0.87}, {"from": "GCPE \u2013 Planning", "to": "South Bronx Industrial Development Corporation (SBIDC)", "weight": 0.87}, {"from": "GCPE \u2013 Historic Preservation", "to": "Myrtle Avenue Brooklyn Partnership", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Red Hook Initiative", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Gowanus Canal Conservancy", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Resilient Red Hook", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Rockaway Waterfront Alliance", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Evergreen Exchange", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Governor\u2019s Office for Storm Recovery NY Rising", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Brooklyn Movement Center (BMC)  +  Bedford Stuyvesant Restoration Corporation (BSRC)", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "Brooklyn Public Library [BPL] ", "weight": 0.87}, {"from": "GCPE \u2013 Planning", "to": "Chhaya CDC", "weight": 0.87}, {"from": "GCPE \u2013 Planning", "to": "Northwest Bronx Community and Clergy Coalition (NWBCCC)", "weight": 0.87}, {"from": "GCPE \u2013 Planning", "to": "Grand Street Business Improvement District", "weight": 0.87}, {"from": "GCPE \u2013 Planning", "to": "El Puente de Williamsburg", "weight": 0.87}, {"from": "GCPE \u2013 Urban Placemaking and Management", "to": "Brotherhood Sister Sol", "weight": 0.87}, {"from": "GCPE \u2013 Urban Placemaking and Management", "to": "Flatbush Junction Business Improvement District", "weight": 0.87}, {"from": "GCPE \u2013 Urban Placemaking and Management", "to": "Fort Greene Park Conservancy", "weight": 0.87}, {"from": "Pratt Center", "to": "Gowanus Neighborhood Coalition for Justice", "weight": 0.87}, {"from": "Pratt Center", "to": "Cypress Hills Local Development Corporation", "weight": 0.87}, {"from": "Pratt Center", "to": "Chinatown Working Group", "weight": 0.87}, {"from": "Pratt Center", "to": "The Alliance for Flushing Meadows Corona Park", "weight": 0.87}, {"from": "Pratt Center", "to": "Jackson Heights Beautification Group", "weight": 0.87}, {"from": "Pratt Center", "to": "Brooklyn Community Board 7", "weight": 0.87}, {"from": "Center for Art, Design, and Community Engagement K-12", "to": "Turnaround Arts", "weight": 0.87}, {"from": "SAVI", "to": "Village of Ossining", "weight": 0.87}, {"from": "SAVI", "to": "Jakmel Ekspresyon (JE) Community Center", "weight": 0.87}, {"from": "Pratt Center", "to": "Urban Manufacturing Alliance", "weight": 0.87}, {"from": "SAVI", "to": "Urban Manufacturing Alliance", "weight": 0.87}, {"from": "SAVI", "to": "Prospect Lefferts Gardens", "weight": 0.87}, {"from": "SAVI", "to": "Neighbors Allied for Good Growth", "weight": 0.87}, {"from": "SAVI", "to": "The Laboratory of Integrated Archaeological Visualization and Heritage", "weight": 0.87}, {"from": "SAVI", "to": "Hester Street Collaborative", "weight": 0.87}, {"from": "SAVI", "to": "Friends of Bushwick Inlet", "weight": 0.87}, {"from": "SAVI", "to": "Hudson River Foundation", "weight": 0.87}, {"from": "Interior Design", "to": "Bushwick Generator", "weight": 0.87}, {"from": "Interior Design", "to": "SUN (Sustainable United Neighborhoods))", "weight": 0.87}, {"from": "Interior Design", "to": "Better Brooklyn", "weight": 0.87}, {"from": "Interior Design", "to": "Carlos Menchaca who represents ", "weight": 0.87}, {"from": "Interior Design", "to": "New York City Council District 38,", "weight": 0.87}, {"from": "Interior Design", "to": "Sunset Park District", "weight": 0.87}, {"from": "Interior Design", "to": "SDR Park Coalition", "weight": 0.87}, {"from": "Interior Design", "to": "Green Map System", "weight": 0.87}, {"from": "Interior Design", "to": "University Settlement", "weight": 0.87}, {"from": "Interior Design", "to": "Downtown Art", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "The Point CDC", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "The New York City Environmental Justice Alliance ", "weight": 0.87}, {"from": "GCPE \u2013 SES", "to": "South Bronx Community Resilience Agenda (SBCRA)", "weight": 0.87}, {"from": "GCPE \u2013 Planning", "to": "Mothers on the Move (MOM)", "weight": 0.87}, {"from": "GCPE \u2013 Planning", "to": "Mary Mitchell Family and Youth Center", "weight": 0.87}, {"from": "Fine Arts", "to": "Fort Greene Community and District 35", "weight": 0.87}, {"from": "Fine Arts", "to": "Recess Assembly (part of Recess)", "weight": 0.87}, {"from": "Pratt Center", "to": "Mothers on the Move (MOM)", "weight": 0.87}, {"from": "Pratt Center", "to": "The Point CDC", "weight": 0.87}, {"from": "Pratt Center", "to": "WE STAY / NOS QUEDAMOS", "weight": 0.87}, {"from": "CRR", "to": "Children of Promise ", "weight": 0.87}, {"from": "CRR", "to": "The Brooklyn Urban Garden School", "weight": 0.87}, {"from": "CRR", "to": "The Brookyln School of Inquiry", "weight": 0.87}, {"from": "CRR", "to": "St. Hilda\u2019s \u0026 St. Hughs School", "weight": 0.87}, {"from": "CRR", "to": "New Lab", "weight": 0.87}, {"from": "SAVI", "to": "CUJAE ", "weight": 0.87}, {"from": "SAVI", "to": "Plan Maestro, the Office of the City Historian", "weight": 0.87}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
