@@ -41,7 +41,6 @@ temp
 # %%
 
 dfs = df[ ~ df['Name of Community Partner'].str.contains("\n") ]
-
 df2 = dfs.append( temp )
 
 df2.head()
@@ -92,33 +91,75 @@ for name in df2[col_name].unique():
 
 df2[col_name] = df2[col_name].replace( "Graduate Center for Planning and the Environment – Planning","Graduate Center for Planning and the Environment – Planning")
 
+# %% Interactive network
+
+df2['Dept'] = df2['Pratt Department or Center affiliated with Community Partnered Course' ]
+df2['Partner'] = df2['Name of Community Partner']
+
+df2['Dept'] = df2['Dept'].str.replace('Graduate Center for Planning and the Environment',"GCPE" , regex = True)
+df2['Dept'] = df2['Dept'].replace('Graduate Architecture and Urban Design',"GAUD")
+df2['Dept'] = df2['Dept'].replace('Sustainable Environmental Systems',"SES" , regex = True)
+
+df2['Dept'] = df2['Dept'].replace('Pratt Center for Community Development ','Pratt Center for Community Development')
+df2['Dept'] = df2['Dept'].replace('Pratt Center for Community Development','Pratt Center')
+
+df2['Dept'] = df2['Dept'].replace('Spatial Analysis and Visualization Initiative','SAVI')
+df2['Dept'] = df2['Dept'].replace('GCPE –\xa0Planning','GCPE – Planning')
+
+df2['Dept'] = df2['Dept'].replace('Interior Design ','Interior Design')
+df2['Dept'] = df2['Dept'].replace('The Consortium for Research and Robotics ','CRR')
+
+df2['Dept'] = df2['Dept'].replace('Center for Art, Design, and Community Engagement K-12','K-12 Center')
+
+
+df2['Dept'].unique().tolist()
+
+#%%
 
 df2.to_excel( r"C:\Users\csucuogl\Dropbox\ComEng_Viz\Pratt Community Partnered Course Catalogue - EDIT_2.xls" )
-# %% Simple Network
 
-df2['color'] = None
-df2.loc[ df2['Pratt School'] == "Institutional" , "color"] = "red"
-df2.loc[ df2['Pratt School'] != "Institutional" , "color"] = "blue"
 
-import networkx as nx
-import matplotlib.pyplot as plt 
-G = nx.Graph()
+#%%
 
-G=nx.from_pandas_edgelist(
-    df2, 
-    'Pratt Department or Center affiliated with Community Partnered Course', 
-    'Name of Community Partner',
-    edge_attr=["color"])
+def addFlower(mother,child):
+    print(mother,child)
 
-plt.figure( figsize=(14,14))
-nx.draw(G, with_labels=True , font_size=7 , node_size=50)
-plt.show()
+    [net.add_node(n, label=n) for n in child]
+    net.add_node(mother, label=mother)
+    [net.add_edge(mother, n, weight=1,value=2) for n in child ]
+
+from pyvis.network import Network
+net = Network(notebook=False, width="100%", height="100%")
+
+nodes = df2['Dept'].tolist() + df2['Partner'].tolist()
+
+#Dept - School
+
+gcpes = [
+    'GCPE – SES',
+    'SES – Historic Preservation',
+    'GCPE – Historic Preservation',
+    'GCPE – Planning',
+    'GCPE – Urban Placemaking and Management'
+    ]
+
+addFlower("GCPE" , gcpes )
+
+centers = [
+    "CRR",
+    "Pratt Center",
+    "SAVI",
+    "K-12 Center"
+]
+
+addFlower("Centers" , centers )
+
+#Dept - Com
+[net.add_node(n, label=n) for n in nodes]
+[net.add_edge(r['Dept'], r['Partner'], weight=.87) for i,r in df2.iterrows() ]
+
+net.show(r"C:\Users\csucuogl\Documents\GitHub\PrattComEng\img\Network1.html")
 # %%
 
-
-df.head()
-# %%
-
-
-df2[ df2['Pratt School'] != "Institutional" ]
+df2['Dept'].unique()
 # %%
